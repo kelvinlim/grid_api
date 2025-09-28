@@ -16,6 +16,32 @@ from rich.json import JSON
 from gridapi.client import GridAPIClient
 from gridapi.exceptions import GridAPIError
 
+# Get version from package metadata
+try:
+    # First try to read from pyproject.toml for development
+    import re
+    with open('pyproject.toml', 'r') as f:
+        content = f.read()
+        match = re.search(r'version\s*=\s*["\']([^"\']+)["\']', content)
+        if match:
+            __version__ = match.group(1)
+        else:
+            raise ValueError("Version not found in pyproject.toml")
+except Exception:
+    # Fallback to package metadata
+    try:
+        from importlib.metadata import version
+        __version__ = version('gridapi')
+    except ImportError:
+        # Fallback for older Python versions
+        try:
+            from importlib_metadata import version
+            __version__ = version('gridapi')
+        except ImportError:
+            __version__ = 'unknown'
+    except Exception:
+        __version__ = 'dev'
+
 console = Console()
 
 
@@ -86,7 +112,7 @@ def get_client_from_context(ctx) -> GridAPIClient:
     'help_option_names': ['-h', '--help'],
     'max_content_width': 100,
     'terminal_width': 120
-})
+}, help=f"GridAPI command-line interface (version {__version__})")
 @click.option('--base-url', help='Base URL for Grid API (overrides config file)')
 @click.option('--token', help='API token for authentication (overrides config file)')
 @click.option('--session-id', help='Session ID for cookie authentication (overrides config file)')
@@ -95,7 +121,7 @@ def get_client_from_context(ctx) -> GridAPIClient:
 @click.pass_context
 def cli(ctx, base_url: Optional[str], token: Optional[str], session_id: Optional[str], 
         config_file: Optional[str], verbose: bool):
-    """GridAPI command-line interface.
+    """GridAPI command-line interface (version {}).
 
     Configuration is loaded from a 'grid_token' file by default.
     Command line options override config file values.
@@ -118,7 +144,8 @@ def cli(ctx, base_url: Optional[str], token: Optional[str], session_id: Optional
         gridapi studies subject-events 100 1000
         gridapi studies procedure-events 100 2249
         gridapi studies create --description "My Study"
-    """
+    """.format(__version__)
+    
     ctx.ensure_object(dict)
     ctx.obj['base_url'] = base_url
     ctx.obj['token'] = token
