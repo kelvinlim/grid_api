@@ -154,7 +154,7 @@ def get_platform_info():
     machine = platform.machine().lower()
     
     if system == 'windows':
-        return 'windows', 'exe'
+        return 'windows', '.exe'
     elif system == 'darwin':
         return 'macos', ''
     elif system == 'linux':
