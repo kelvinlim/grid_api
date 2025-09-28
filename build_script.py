@@ -193,17 +193,6 @@ def build_executable():
     exe_name = f"gridapi{ext}" if ext else "gridapi"
     exe_path = Path(f"dist/{exe_name}")
     
-    # Debug: List contents of dist directory
-    print(f"   Debug: Contents of dist directory:")
-    dist_dir = Path("dist")
-    if dist_dir.exists():
-        for item in dist_dir.iterdir():
-            print(f"     - {item.name}")
-    else:
-        print("     - dist directory does not exist")
-    
-    print(f"   Debug: Looking for executable: {exe_path}")
-    
     if exe_path.exists():
         print(f"[SUCCESS] Executable created: {exe_path}")
         print(f"   Platform: {platform_name}")
