@@ -1,0 +1,1997 @@
+openapi: 3.0.3
+info:
+  title: Grid API
+  version: 1.0.0
+  description: API to Grid data.
+paths:
+  /api/grid/datatype/:
+    get:
+      operationId: grid_datatype_list
+      parameters:
+      - in: query
+        name: description
+        schema:
+          type: string
+      - in: query
+        name: name
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Datatype'
+          description: ''
+    post:
+      operationId: grid_datatype_create
+      tags:
+      - grid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Datatype'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Datatype'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Datatype'
+        required: true
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Datatype'
+          description: ''
+  /api/grid/datatype/{id}/:
+    get:
+      operationId: grid_datatype_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: grid_datatype_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: grid_datatype_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/grid/studies/:
+    get:
+      operationId: grid_studies_list
+      parameters:
+      - in: query
+        name: created_by
+        schema:
+          type: string
+      - in: query
+        name: description
+        schema:
+          type: string
+      - in: query
+        name: investigator
+        schema:
+          type: string
+      - in: query
+        name: note
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: status
+        schema:
+          type: integer
+      - in: query
+        name: updated_by
+        schema:
+          type: string
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Study'
+          description: ''
+    post:
+      operationId: grid_studies_create
+      tags:
+      - grid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Study'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Study'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Study'
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Study'
+          description: ''
+  /api/grid/studies/{id}/:
+    get:
+      operationId: grid_studies_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: grid_studies_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: grid_studies_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/grid/studies/{study_id}/events/:
+    get:
+      operationId: grid_studies_events_retrieve
+      parameters:
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: grid_studies_events_create
+      parameters:
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/grid/studies/{study_id}/events/{event_id}/details/:
+    get:
+      operationId: grid_studies_events_details_retrieve
+      parameters:
+      - in: path
+        name: event_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: grid_studies_events_details_create
+      parameters:
+      - in: path
+        name: event_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/grid/studies/{study_id}/events/{event_id}/details/{id}/:
+    get:
+      operationId: grid_studies_events_details_retrieve_2
+      parameters:
+      - in: path
+        name: event_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: grid_studies_events_details_update
+      parameters:
+      - in: path
+        name: event_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: grid_studies_events_details_destroy
+      parameters:
+      - in: path
+        name: event_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/grid/studies/{study_id}/events/{id}/:
+    get:
+      operationId: grid_studies_events_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: grid_studies_events_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: grid_studies_events_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/grid/studies/{study_id}/procedures/:
+    get:
+      operationId: grid_studies_procedures_retrieve
+      parameters:
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: grid_studies_procedures_create
+      parameters:
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/grid/studies/{study_id}/procedures/{id}/:
+    get:
+      operationId: grid_studies_procedures_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: grid_studies_procedures_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: grid_studies_procedures_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/grid/studies/{study_id}/subjects/:
+    get:
+      operationId: grid_studies_subjects_retrieve
+      parameters:
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: grid_studies_subjects_create
+      parameters:
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/grid/studies/{study_id}/subjects/{id}/:
+    get:
+      operationId: grid_studies_subjects_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: grid_studies_subjects_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: grid_studies_subjects_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/grid/studies/{study_id}/subjects/{subject_id}/contacts/:
+    get:
+      operationId: grid_studies_subjects_contacts_retrieve
+      parameters:
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: subject_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: grid_studies_subjects_contacts_create
+      parameters:
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: subject_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/grid/studies/{study_id}/subjects/{subject_id}/contacts/{id}/:
+    get:
+      operationId: grid_studies_subjects_contacts_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: subject_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: grid_studies_subjects_contacts_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: subject_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: grid_studies_subjects_contacts_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: subject_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/grid/subjectstudies/:
+    get:
+      operationId: grid_subjectstudies_list
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SubjectStudy'
+          description: ''
+    post:
+      operationId: grid_subjectstudies_create
+      tags:
+      - grid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubjectStudy'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SubjectStudy'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubjectStudy'
+        required: true
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubjectStudy'
+          description: ''
+  /api/grid/subjectstudies/{id}/:
+    get:
+      operationId: grid_subjectstudies_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: grid_subjectstudies_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: grid_subjectstudies_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - grid
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/image/acquisition/:
+    post:
+      operationId: image_acquisition_create
+      tags:
+      - image
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Acquisition'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Acquisition'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Acquisition'
+        required: true
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Acquisition'
+          description: ''
+  /api/image/acquisition/{id}/:
+    get:
+      operationId: image_acquisition_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: image_acquisition_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: image_acquisition_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/image/action/:
+    get:
+      operationId: image_action_list
+      parameters:
+      - in: query
+        name: finishtime
+        schema:
+          type: string
+          format: date-time
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: starttime
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: status
+        schema:
+          type: string
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Action'
+          description: ''
+    post:
+      operationId: image_action_create
+      tags:
+      - image
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Action'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Action'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Action'
+        required: true
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Action'
+          description: ''
+  /api/image/action/{id}/:
+    get:
+      operationId: image_action_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: image_action_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: image_action_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/image/actiontype/:
+    get:
+      operationId: image_actiontype_list
+      parameters:
+      - in: query
+        name: description
+        schema:
+          type: string
+      - in: query
+        name: label
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ActionType'
+          description: ''
+    post:
+      operationId: image_actiontype_create
+      tags:
+      - image
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActionType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ActionType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ActionType'
+        required: true
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionType'
+          description: ''
+  /api/image/actiontype/{id}/:
+    get:
+      operationId: image_actiontype_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: image_actiontype_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: image_actiontype_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/image/destination/:
+    get:
+      operationId: image_destination_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: study
+        schema:
+          type: integer
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Destination'
+          description: ''
+    post:
+      operationId: image_destination_create
+      tags:
+      - image
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Destination'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Destination'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Destination'
+        required: true
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Destination'
+          description: ''
+  /api/image/destination/{id}/:
+    get:
+      operationId: image_destination_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: image_destination_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: image_destination_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/image/listactiontype:
+    get:
+      operationId: image_listactiontype_list
+      parameters:
+      - in: query
+        name: description
+        schema:
+          type: string
+      - in: query
+        name: label
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ActionType'
+          description: ''
+    post:
+      operationId: image_listactiontype_create
+      tags:
+      - image
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActionType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ActionType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ActionType'
+        required: true
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionType'
+          description: ''
+  /api/image/rawdatain/:
+    get:
+      operationId: image_rawdatain_list
+      parameters:
+      - in: query
+        name: accession
+        schema:
+          type: string
+      - in: query
+        name: grid_match
+        schema:
+          type: boolean
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - in: query
+        name: receivetime
+        schema:
+          type: string
+          format: date-time
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RawDataIn'
+          description: ''
+    post:
+      operationId: image_rawdatain_create
+      tags:
+      - image
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RawDataIn'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RawDataIn'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RawDataIn'
+        required: true
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RawDataIn'
+          description: ''
+  /api/image/rawdatain/{id}/:
+    get:
+      operationId: image_rawdatain_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: image_rawdatain_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: image_rawdatain_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/image/scannertype/:
+    get:
+      operationId: image_scannertype_list
+      parameters:
+      - in: query
+        name: cmrr_name
+        schema:
+          type: string
+      - in: query
+        name: description
+        schema:
+          type: string
+      - in: query
+        name: label
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ScannerType'
+          description: ''
+    post:
+      operationId: image_scannertype_create
+      tags:
+      - image
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScannerType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ScannerType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ScannerType'
+        required: true
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScannerType'
+          description: ''
+  /api/image/scannertype/{id}/:
+    get:
+      operationId: image_scannertype_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: image_scannertype_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: image_scannertype_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - image
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/taskflow/study/{study_id}/measures:
+    get:
+      operationId: taskflow_study_measures_retrieve
+      parameters:
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - taskflow
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/taskflow/study/{study_id}/measures/{id}/:
+    get:
+      operationId: taskflow_study_measures_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - taskflow
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/taskflow/study/{study_id}/participants:
+    get:
+      operationId: taskflow_study_participants_retrieve
+      parameters:
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - taskflow
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/taskflow/study/{study_id}/participants/{participant_id}/measures:
+    get:
+      operationId: taskflow_study_participants_measures_retrieve
+      parameters:
+      - in: path
+        name: participant_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - taskflow
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/taskflow/study/{study_id}/participants/{participant_id}/measures/{id}/:
+    get:
+      operationId: taskflow_study_participants_measures_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: participant_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - taskflow
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/taskflow/study/{study_id}/participants/{id}/:
+    get:
+      operationId: taskflow_study_participants_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: study_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - taskflow
+      security:
+      - tokenAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    Acquisition:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        study:
+          type: integer
+        studyinstanceuid:
+          type: string
+          maxLength: 100
+        accession:
+          type: string
+          maxLength: 100
+        receipt:
+          type: string
+          format: date-time
+      required:
+      - accession
+      - id
+      - receipt
+      - study
+    Action:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        acquisition:
+          type: integer
+        starttime:
+          type: string
+          format: date-time
+        finishtime:
+          type: string
+          format: date-time
+        status:
+          type: string
+          maxLength: 100
+        json_data: {}
+      required:
+      - acquisition
+      - finishtime
+      - id
+      - starttime
+      - status
+    ActionType:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        label:
+          type: string
+          title: Short label
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 100
+        json_data: {}
+      required:
+      - description
+      - id
+      - label
+    Datatype:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 255
+        description:
+          type: string
+          nullable: true
+        study:
+          type: integer
+        json_data: {}
+        created_by:
+          type: string
+          nullable: true
+          maxLength: 8
+        updated_by:
+          type: string
+          nullable: true
+          maxLength: 8
+        created_at:
+          type: string
+          format: date-time
+          nullable: true
+        updated_at:
+          type: string
+          format: date-time
+          nullable: true
+        lock_version:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+      required:
+      - id
+      - study
+    Destination:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        study:
+          type: integer
+        json_data: {}
+      required:
+      - id
+      - study
+    RawDataIn:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        studyinstanceuid:
+          type: string
+          maxLength: 100
+        accession:
+          type: string
+          maxLength: 100
+        receivetime:
+          type: string
+          format: date-time
+        grid_match:
+          type: boolean
+        acquisition:
+          type: integer
+        study:
+          type: integer
+        scannertype:
+          type: integer
+      required:
+      - accession
+      - acquisition
+      - grid_match
+      - id
+      - receivetime
+      - scannertype
+      - study
+    ScannerType:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        label:
+          type: string
+          title: Short label
+          maxLength: 100
+        cmrr_name:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 100
+        json_data: {}
+      required:
+      - description
+      - id
+      - label
+    Study:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        description:
+          type: string
+          nullable: true
+          maxLength: 255
+        note:
+          type: string
+          nullable: true
+        investigator:
+          type: string
+          nullable: true
+          maxLength: 255
+        status:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        end_date:
+          type: string
+          format: date
+          nullable: true
+        created_by:
+          type: string
+          nullable: true
+          maxLength: 8
+        updated_at:
+          type: string
+          format: date-time
+          nullable: true
+        lock_version:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+      required:
+      - id
+    SubjectStudy:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        subject_id:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        study_id:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        note:
+          type: string
+          nullable: true
+        study_of_origin:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        study_entry_date:
+          type: string
+          format: date
+          nullable: true
+        participant_status:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        group_id:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        created_by:
+          type: string
+          nullable: true
+          maxLength: 8
+        updated_by:
+          type: string
+          nullable: true
+          maxLength: 8
+        created_at:
+          type: string
+          format: date-time
+          nullable: true
+        updated_at:
+          type: string
+          format: date-time
+          nullable: true
+        lock_version:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+      required:
+      - id
+      - study_id
+      - subject_id
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
