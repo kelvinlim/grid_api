@@ -1,0 +1,3 @@
+# get your grid_token from here: https://lnpiapp.med.umn.edu/lnpi/grid/apikey/
+grid_token=token-goes-here
+base_url=https://lnpiapp.med.umn.edu
