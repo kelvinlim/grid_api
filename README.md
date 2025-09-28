@@ -14,19 +14,67 @@ A comprehensive Python client library for interacting with the Grid API, providi
 
 ## Installation
 
+### From PyPI (when published)
 ```bash
 pip install gridapi
 ```
 
-For async support:
+### From Source
 ```bash
-pip install gridapi[async]
+git clone https://github.com/kelvinlim/gridapi.git
+cd gridapi
+pip install -e .
 ```
 
-For CLI tools:
+### With Optional Dependencies
 ```bash
+# For CLI functionality
 pip install gridapi[cli]
+
+# For async support
+pip install gridapi[async]
+
+# For development
+pip install gridapi[dev]
+
+# All features
+pip install gridapi[all]
 ```
+
+### Windows Standalone Executable
+For users who don't want to install Python:
+
+1. **Download**: Get the pre-built executable from releases
+   - **Windows**: `gridapi-windows.exe`
+   - **macOS**: `gridapi-macos`
+   - **Linux**: `gridapi-linux`
+2. **Configure**: Create a `grid_token` file with your API credentials
+3. **Run**: Execute the executable directly from command line
+
+See [WINDOWS_BUILD.md](WINDOWS_BUILD.md) for detailed instructions on building cross-platform executables.
+See [DEPLOYMENT.md](DEPLOYMENT.md) for information about automated releases and deployment.
+
+## Releases
+
+### Latest Release
+Download the latest release from [GitHub Releases](https://github.com/kelvinlim/gridapi/releases):
+
+- **Windows**: `gridapi-windows.exe`
+- **macOS**: `gridapi-macos`  
+- **Linux**: `gridapi-linux`
+
+### Release Process
+Releases are automatically created when version tags are pushed:
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+This triggers GitHub Actions to:
+1. Build executables for all platforms
+2. Create a GitHub release with downloadable assets
+3. Generate checksums for verification
 
 ## Quick Start
 

@@ -1,0 +1,190 @@
+name: Build and Release Executables
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger on version tags like v1.0.0
+  workflow_dispatch:  # Allow manual triggering
+    inputs:
+      version:
+        description: 'Version to release (e.g., v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+
+jobs:
+  build-and-release:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        include:
+          - os: windows-latest
+            platform: windows
+            executable: gridapi.exe
+          - os: macos-latest
+            platform: macos
+            executable: gridapi
+          - os: ubuntu-latest
+            platform: linux
+            executable: gridapi
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller build twine
+        pip install -e ".[dev]"
+
+    - name: Build executable
+      run: |
+        python build_script.py --exe
+
+    - name: Test executable
+      run: |
+        if [ "${{ matrix.platform }}" = "windows" ]; then
+          dist\gridapi.exe --help
+        else
+          ./dist/gridapi --help
+        fi
+
+    - name: Upload executable artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: gridapi-${{ matrix.platform }}
+        path: dist/${{ matrix.executable }}
+        retention-days: 30
+
+  create-release:
+    needs: build-and-release
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: ./artifacts
+
+    - name: Prepare release assets
+      run: |
+        mkdir -p release-assets
+        cp artifacts/gridapi-windows/gridapi.exe release-assets/gridapi-windows.exe
+        cp artifacts/gridapi-macos/gridapi release-assets/gridapi-macos
+        cp artifacts/gridapi-linux/gridapi release-assets/gridapi-linux
+        
+        # Create checksums
+        cd release-assets
+        sha256sum * > checksums.txt
+        cd ..
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ github.ref_name }}
+        name: GridAPI CLI ${{ github.ref_name }}
+        body: |
+          ## GridAPI CLI ${{ github.ref_name }}
+          
+          Standalone executables for Windows, macOS, and Linux.
+          
+          ### Downloads
+          - **Windows**: `gridapi-windows.exe` (requires Windows 7+)
+          - **macOS**: `gridapi-macos` (requires macOS 10.13+)
+          - **Linux**: `gridapi-linux` (requires glibc 2.17+)
+          
+          ### Installation
+          1. Download the appropriate executable for your platform
+          2. Make it executable (Linux/macOS): `chmod +x gridapi-*`
+          3. Create a `grid_token` file with your API credentials:
+             ```
+             grid_token=your-api-token-here
+             base_url=https://your-api-url.com
+             ```
+          4. Run: `./gridapi-* studies list` (or `gridapi-windows.exe studies list` on Windows)
+          
+          ### Verification
+          Verify your download using the provided checksums:
+          ```bash
+          sha256sum -c checksums.txt
+          ```
+          
+          ### What's New
+          - Cross-platform standalone executables
+          - No Python installation required
+          - Full CLI functionality included
+        files: |
+          release-assets/*
+        draft: false
+        prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
+
+  manual-release:
+    needs: build-and-release
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: ./artifacts
+
+    - name: Prepare release assets
+      run: |
+        mkdir -p release-assets
+        cp artifacts/gridapi-windows/gridapi.exe release-assets/gridapi-windows.exe
+        cp artifacts/gridapi-macos/gridapi release-assets/gridapi-macos
+        cp artifacts/gridapi-linux/gridapi release-assets/gridapi-linux
+        
+        # Create checksums
+        cd release-assets
+        sha256sum * > checksums.txt
+        cd ..
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ github.event.inputs.version }}
+        name: GridAPI CLI ${{ github.event.inputs.version }}
+        body: |
+          ## GridAPI CLI ${{ github.event.inputs.version }}
+          
+          Standalone executables for Windows, macOS, and Linux.
+          
+          ### Downloads
+          - **Windows**: `gridapi-windows.exe` (requires Windows 7+)
+          - **macOS**: `gridapi-macos` (requires macOS 10.13+)
+          - **Linux**: `gridapi-linux` (requires glibc 2.17+)
+          
+          ### Installation
+          1. Download the appropriate executable for your platform
+          2. Make it executable (Linux/macOS): `chmod +x gridapi-*`
+          3. Create a `grid_token` file with your API credentials:
+             ```
+             grid_token=your-api-token-here
+             base_url=https://your-api-url.com
+             ```
+          4. Run: `./gridapi-* studies list` (or `gridapi-windows.exe studies list` on Windows)
+          
+          ### Verification
+          Verify your download using the provided checksums:
+          ```bash
+          sha256sum -c checksums.txt
+          ```
+        files: |
+          release-assets/*
+        draft: true
+        prerelease: ${{ contains(github.event.inputs.version, 'alpha') || contains(github.event.inputs.version, 'beta') || contains(github.event.inputs.version, 'rc') }}

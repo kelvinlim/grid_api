@@ -13,8 +13,8 @@ from rich.console import Console
 from rich.table import Table
 from rich.json import JSON
 
-from .client import GridAPIClient
-from .exceptions import GridAPIError
+from gridapi.client import GridAPIClient
+from gridapi.exceptions import GridAPIError
 
 console = Console()
 

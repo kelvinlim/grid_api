@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=64", "wheel"]
+requires = ["setuptools>=64", "wheel", "build"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,7 +7,7 @@ name = "gridapi"
 version = "1.0.0"
 description = "Python client library for Grid API"
 readme = "README.md"
-license = {text = "MIT"}
+license = "MIT"
 authors = [
   { name = "Kelvin O. Lim", email = "lim.kelvino@gmail.com" },
 ]
@@ -28,7 +28,6 @@ classifiers = [
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
     "Intended Audience :: Healthcare Industry",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
@@ -65,6 +64,7 @@ dev = [
     "isort>=5.10.0",
     "mypy>=1.0.0",
     "flake8>=5.0.0",
+    "pyinstaller>=5.0.0",
 ]
 docs = [
     "sphinx>=5.0.0",
@@ -72,11 +72,23 @@ docs = [
     "myst-parser>=0.18.0",
 ]
 all = [
-    "gridapi[async,cli,dev,docs]",
+    "aiohttp>=3.8.0",
+    "click>=8.0.0",
+    "rich>=12.0.0",
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=22.0.0",
+    "isort>=5.10.0",
+    "mypy>=1.0.0",
+    "flake8>=5.0.0",
+    "pyinstaller>=5.0.0",
+    "sphinx>=5.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+    "myst-parser>=0.18.0",
 ]
 
 [project.urls]
-Homepage = "https://github.com/kelvinlim/gridapi"
+Homepage = "https://github.com/kelvinlim/grid_api"
 #Documentation = "https://gridapi-python.readthedocs.io/"
 #Repository = "https://github.com/gridapi/gridapi-python.git"
 #Issues = "https://github.com/gridapi/gridapi-python/issues"
@@ -86,7 +98,7 @@ Homepage = "https://github.com/kelvinlim/gridapi"
 gridapi = "gridapi.cli:main"
 
 [tool.setuptools]
-packages = ["gridapi"]
+packages = ["gridapi", "gridapi.managers", "gridapi.models", "gridapi.query", "gridapi.utils"]
 
 [tool.setuptools.package-data]
 gridapi = ["py.typed"]
