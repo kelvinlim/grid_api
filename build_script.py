@@ -12,15 +12,15 @@ from pathlib import Path
 
 def run_command(cmd, description):
     """Run a command and handle errors."""
-    print(f"\n🔄 {description}...")
+    print(f"\n[RUNNING] {description}...")
     try:
         result = subprocess.run(cmd, shell=True, check=True, capture_output=True, text=True)
-        print(f"✅ {description} completed successfully")
+        print(f"[SUCCESS] {description} completed successfully")
         if result.stdout:
             print(result.stdout)
         return True
     except subprocess.CalledProcessError as e:
-        print(f"❌ {description} failed")
+        print(f"[ERROR] {description} failed")
         print(f"Error: {e}")
         if e.stdout:
             print(f"Stdout: {e.stdout}")
@@ -31,7 +31,7 @@ def run_command(cmd, description):
 
 def clean_build():
     """Clean build artifacts."""
-    print("\n🧹 Cleaning build artifacts...")
+    print("\n[CLEAN] Cleaning build artifacts...")
     
     # Remove build directories
     dirs_to_remove = ["build", "dist", "*.egg-info"]
@@ -47,12 +47,12 @@ def clean_build():
             shutil.rmtree(path)
             print(f"  Removed {path}")
     
-    print("✅ Clean completed")
+    print("[SUCCESS] Clean completed")
 
 
 def check_requirements():
     """Check if required tools are installed."""
-    print("\n🔍 Checking requirements...")
+    print("\n[CHECK] Checking requirements...")
     
     required_tools = ["python", "pip", "twine"]
     optional_tools = ["pyinstaller"]
@@ -62,27 +62,27 @@ def check_requirements():
     for tool in required_tools:
         try:
             subprocess.run([tool, "--version"], capture_output=True, check=True)
-            print(f"  ✅ {tool} is available")
+            print(f"  [SUCCESS] {tool} is available")
         except (subprocess.CalledProcessError, FileNotFoundError):
-            print(f"  ❌ {tool} is missing")
+            print(f"  [ERROR] {tool} is missing")
             missing_tools.append(tool)
     
     for tool in optional_tools:
         try:
             subprocess.run([tool, "--version"], capture_output=True, check=True)
-            print(f"  ✅ {tool} is available")
+            print(f"  [SUCCESS] {tool} is available")
         except (subprocess.CalledProcessError, FileNotFoundError):
-            print(f"  ⚠️  {tool} is missing (optional for executables)")
+            print(f"  [WARNING]  {tool} is missing (optional for executables)")
             missing_optional.append(tool)
     
     if missing_tools:
-        print(f"\n❌ Missing required tools: {', '.join(missing_tools)}")
+        print(f"\n[ERROR] Missing required tools: {', '.join(missing_tools)}")
         print("Please install them before building:")
         print("  pip install twine build")
         return False
     
     if missing_optional:
-        print(f"\n⚠️  Missing optional tools: {', '.join(missing_optional)}")
+        print(f"\n[WARNING]  Missing optional tools: {', '.join(missing_optional)}")
         print("Install them to create standalone executables:")
         print("  pip install pyinstaller")
     
@@ -91,7 +91,7 @@ def check_requirements():
 
 def build_package():
     """Build the package."""
-    print("\n📦 Building package...")
+    print("\n[BUILD] Building package...")
     
     # Build source distribution and wheel
     if not run_command("python -m build", "Building source distribution and wheel"):
@@ -138,7 +138,7 @@ def test_package():
         if not run_command(test_import_cmd, "Testing package import"):
             return False
         
-        print("✅ Package test completed successfully")
+        print("[SUCCESS] Package test completed successfully")
         return True
         
     finally:
@@ -164,7 +164,7 @@ def get_platform_info():
 
 def build_executable():
     """Build standalone executable using PyInstaller."""
-    print("\n🔨 Building standalone executable...")
+    print("\n[EXECUTABLE] Building standalone executable...")
     
     # Get platform information
     platform_name, ext = get_platform_info()
@@ -174,7 +174,7 @@ def build_executable():
     try:
         subprocess.run(["pyinstaller", "--version"], capture_output=True, check=True)
     except (subprocess.CalledProcessError, FileNotFoundError):
-        print("❌ PyInstaller not found. Install it with: pip install pyinstaller")
+        print("[ERROR] PyInstaller not found. Install it with: pip install pyinstaller")
         return False
     
     # Choose the appropriate spec file
@@ -194,7 +194,7 @@ def build_executable():
     exe_path = Path(f"dist/{exe_name}")
     
     if exe_path.exists():
-        print(f"✅ Executable created: {exe_path}")
+        print(f"[SUCCESS] Executable created: {exe_path}")
         print(f"   Platform: {platform_name}")
         print(f"   Size: {exe_path.stat().st_size / (1024*1024):.1f} MB")
         
@@ -204,34 +204,34 @@ def build_executable():
             result = subprocess.run([str(exe_path), "--help"], 
                                   capture_output=True, text=True, timeout=10)
             if result.returncode == 0:
-                print(f"   ✅ Executable test passed")
+                print(f"   [SUCCESS] Executable test passed")
             else:
-                print(f"   ⚠️  Executable test failed (return code: {result.returncode})")
+                print(f"   [WARNING]  Executable test failed (return code: {result.returncode})")
         except subprocess.TimeoutExpired:
-            print(f"   ⚠️  Executable test timed out")
+            print(f"   [WARNING]  Executable test timed out")
         except Exception as e:
-            print(f"   ⚠️  Executable test error: {e}")
+            print(f"   [WARNING]  Executable test error: {e}")
         
         return True
     else:
-        print("❌ Executable not found after build")
+        print("[ERROR] Executable not found after build")
         return False
 
 
 def build_all_platforms():
     """Build executables for all supported platforms."""
-    print("\n🌍 Building executables for all platforms...")
+    print("\n[PLATFORMS] Building executables for all platforms...")
     
     # Get current platform
     current_platform, _ = get_platform_info()
     print(f"   Current platform: {current_platform}")
     
     # Build for current platform
-    print(f"\n📦 Building for {current_platform}...")
+    print(f"\n[BUILD] Building for {current_platform}...")
     if build_executable():
-        print(f"✅ {current_platform} build completed")
+        print(f"[SUCCESS] {current_platform} build completed")
     else:
-        print(f"❌ {current_platform} build failed")
+        print(f"[ERROR] {current_platform} build failed")
         return False
     
     # Note about cross-platform building
@@ -247,7 +247,7 @@ def build_all_platforms():
 
 def prepare_release_assets():
     """Prepare release assets for GitHub release."""
-    print("\n📦 Preparing release assets...")
+    print("\n[BUILD] Preparing release assets...")
     
     # Get platform information
     platform_name, ext = get_platform_info()
@@ -259,7 +259,7 @@ def prepare_release_assets():
         print(f"   Executable not found: {exe_path}")
         print(f"   Building executable first...")
         if not build_executable():
-            print(f"❌ Failed to build executable")
+            print(f"[ERROR] Failed to build executable")
             return False
     
     # Create release directory
@@ -273,7 +273,7 @@ def prepare_release_assets():
     import shutil
     shutil.copy2(exe_path, platform_exe_path)
     
-    print(f"✅ Copied executable: {platform_exe_path}")
+    print(f"[SUCCESS] Copied executable: {platform_exe_path}")
     print(f"   Size: {platform_exe_path.stat().st_size / (1024*1024):.1f} MB")
     
     # Create checksums
@@ -290,17 +290,17 @@ def prepare_release_assets():
             checksum = sha256_hash.hexdigest()
             f.write(f"{checksum}  {platform_exe_name}\n")
         
-        print(f"✅ Created checksums: {checksum_file}")
+        print(f"[SUCCESS] Created checksums: {checksum_file}")
         
         # Show checksum
         with open(checksum_file, "r") as f:
             print(f"   Checksum: {f.read().strip()}")
         
     except Exception as e:
-        print(f"❌ Failed to create checksums: {e}")
+        print(f"[ERROR] Failed to create checksums: {e}")
         return False
     
-    print(f"\n📋 Release assets prepared in: {release_dir}")
+    print(f"\n[INFO] Release assets prepared in: {release_dir}")
     print(f"   - {platform_exe_name}")
     print(f"   - checksums.txt")
     
@@ -309,7 +309,7 @@ def prepare_release_assets():
 
 def publish_package(test_pypi=False):
     """Publish the package to PyPI."""
-    print("\n🚀 Publishing package...")
+    print("\n[RELEASE] Publishing package...")
     
     if test_pypi:
         print("  Publishing to Test PyPI...")
@@ -321,13 +321,13 @@ def publish_package(test_pypi=False):
     if not run_command(upload_cmd, "Uploading package"):
         return False
     
-    print("✅ Package published successfully")
+    print("[SUCCESS] Package published successfully")
     return True
 
 
 def main():
     """Main build and publish workflow."""
-    print("🚀 GridAPI Package Build and Publish Script")
+    print("GridAPI Package Build and Publish Script")
     print("=" * 50)
     print("Note: This script has been renamed from build.py to build_script.py")
     print("to avoid conflicts with the Python 'build' module.")
@@ -347,7 +347,7 @@ def main():
     clean_build()
     
     if clean_only:
-        print("\n✅ Clean completed. Exiting.")
+        print("\n[SUCCESS] Clean completed. Exiting.")
         return
     
     # Check requirements
@@ -360,28 +360,28 @@ def main():
             sys.exit(1)
     
     if build_only:
-        print("\n✅ Build completed. Exiting.")
+        print("\n[SUCCESS] Build completed. Exiting.")
         return
     
     # Build executable
     if build_exe:
         if not build_executable():
             sys.exit(1)
-        print("\n✅ Executable build completed. Exiting.")
+        print("\n[SUCCESS] Executable build completed. Exiting.")
         return
     
     # Build for all platforms
     if build_all:
         if not build_all_platforms():
             sys.exit(1)
-        print("\n✅ Multi-platform build completed. Exiting.")
+        print("\n[SUCCESS] Multi-platform build completed. Exiting.")
         return
     
     # Prepare release assets
     if prepare_release:
         if not prepare_release_assets():
             sys.exit(1)
-        print("\n✅ Release assets prepared. Exiting.")
+        print("\n[SUCCESS] Release assets prepared. Exiting.")
         return
     
     # Test package
@@ -390,21 +390,21 @@ def main():
             sys.exit(1)
     
     if test_only:
-        print("\n✅ Test completed. Exiting.")
+        print("\n[SUCCESS] Test completed. Exiting.")
         return
     
     # Publish package
     if publish_test:
         if not publish_package(test_pypi=True):
             sys.exit(1)
-        print("\n✅ Package published to Test PyPI")
+        print("\n[SUCCESS] Package published to Test PyPI")
     elif publish_prod:
         if not publish_package(test_pypi=False):
             sys.exit(1)
-        print("\n✅ Package published to PyPI")
+        print("\n[SUCCESS] Package published to PyPI")
     
-    print("\n🎉 All operations completed successfully!")
-    print("\n📋 Available commands:")
+    print("\n[COMPLETE] All operations completed successfully!")
+    print("\n[INFO] Available commands:")
     print("  python build_script.py --clean          # Clean build artifacts")
     print("  python build_script.py --build          # Build package only")
     print("  python build_script.py --exe            # Build standalone executable")
@@ -414,7 +414,7 @@ def main():
     print("  python build_script.py --test-pypi      # Publish to Test PyPI")
     print("  python build_script.py --publish        # Publish to PyPI")
     print("  python build_script.py                  # Full build, test, and publish")
-    print("\n🚀 Release Management:")
+    print("\n[RELEASE] Release Management:")
     print("  python release_script.py --version 1.0.0 --build-only")
     print("  python release_script.py --version 1.0.0 --create-release")
     print("  python release_script.py --list-releases")
