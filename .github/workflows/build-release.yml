@@ -47,13 +47,13 @@ jobs:
       run: |
         python build_script.py --exe
 
-    - name: Test executable
-      run: |
-        if [ "${{ matrix.platform }}" = "windows" ]; then
-          dist\gridapi.exe --help
-        else
-          ./dist/gridapi --help
-        fi
+    - name: Test executable (Windows)
+      if: matrix.platform == 'windows'
+      run: dist\gridapi.exe --help
+
+    - name: Test executable (macOS/Linux)
+      if: matrix.platform != 'windows'
+      run: ./dist/gridapi --help
 
     - name: Upload executable artifact
       uses: actions/upload-artifact@v4
