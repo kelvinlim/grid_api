@@ -11,6 +11,9 @@ on:
         required: true
         default: 'v1.0.0'
 
+permissions:
+  contents: write  # Required for creating releases
+
 jobs:
   build-and-release:
     runs-on: ${{ matrix.os }}
@@ -127,6 +130,8 @@ jobs:
           release-assets/*
         draft: false
         prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   manual-release:
     needs: build-and-release
@@ -188,3 +193,5 @@ jobs:
           release-assets/*
         draft: true
         prerelease: ${{ contains(github.event.inputs.version, 'alpha') || contains(github.event.inputs.version, 'beta') || contains(github.event.inputs.version, 'rc') }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
