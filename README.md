@@ -1,6 +1,6 @@
-# GridAPI Python Client
+# LNPI GridAPI Python Client
 
-A comprehensive Python client library for interacting with the Grid API, providing type-safe, intuitive access to research studies, medical imaging data, and workflow management.
+A comprehensive Python client library for interacting with the LNPI Grid API, providing type-safe, intuitive access to research studies, medical imaging data, and workflow management.
 
 ## Features
 
@@ -14,9 +14,9 @@ A comprehensive Python client library for interacting with the Grid API, providi
 
 ## Installation
 
-### From PyPI (when published)
+### From PyPI
 ```bash
-pip install gridapi
+pip install lnpi_gridapi
 ```
 
 ### From Source
@@ -29,16 +29,16 @@ pip install -e .
 ### With Optional Dependencies
 ```bash
 # For CLI functionality
-pip install gridapi[cli]
+pip install lnpi_gridapi[cli]
 
 # For async support
-pip install gridapi[async]
+pip install lnpi_gridapi[async]
 
 # For development
-pip install gridapi[dev]
+pip install lnpi_gridapi[dev]
 
 # All features
-pip install gridapi[all]
+pip install lnpi_gridapi[all]
 ```
 
 ### Windows Standalone Executable
@@ -57,7 +57,7 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for information about automated releases and 
 ## Releases
 
 ### Latest Release
-Download the latest release from [GitHub Releases](https://github.com/kelvinlim/gridapi/releases):
+Download the latest release from [GitHub Releases](https://github.com/kelvinlim/grid_api/releases):
 
 - **Windows**: `gridapi-windows.exe`
 - **macOS**: `gridapi-macos`  

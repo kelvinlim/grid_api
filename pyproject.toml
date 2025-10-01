@@ -3,9 +3,9 @@ requires = ["setuptools>=64", "wheel", "build"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "gridapi"
-version = "1.0.7"
-description = "Python client library for Grid API"
+name = "lnpi_gridapi"
+version = "1.0.7.2"
+description = "Python client library for LNPI Grid API"
 readme = "README.md"
 license = "MIT"
 authors = [
