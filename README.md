@@ -80,7 +80,7 @@ This triggers GitHub Actions to:
 
 ### Using grid_token file (Recommended)
 
-Create a `grid_token` file in your project directory:
+Create a `grid_token` file in your project directory (or place a `~/.grid_token` file in your home directory to act as a global default):
 ```
 grid_token=your-api-token-here
 base_url=https://api.grid.example.com
@@ -187,11 +187,11 @@ Check out the examples directory for comprehensive usage examples:
 - `examples/cli_usage.py` - Command-line interface examples
 - `examples/event_details_example.py` - Event details functionality examples
 
-All examples use the `grid_token` file for configuration, making them easy to run.
+All examples use the `grid_token` file for configuration by default. If a local `grid_token` isn't found the CLI and examples will fall back to `~/.grid_token` in your home directory. Passing `--config-file` to the CLI will use that explicit path instead.
 
 ## CLI Usage
 
-The CLI automatically reads configuration from a `grid_token` file and provides comprehensive access to all GridAPI resources:
+The CLI automatically reads configuration from a `grid_token` file in the current directory and provides comprehensive access to all GridAPI resources. If no local `grid_token` is present, it will fall back to `~/.grid_token` in the user's home directory. Use `--config-file` to specify an explicit file path.
 
 ```bash
 # Create configuration file

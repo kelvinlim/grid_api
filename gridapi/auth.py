@@ -28,6 +28,9 @@ class AuthHandler:
         headers = {}
         
         if self.token:
+            # Prefer standard Authorization header for token-based auth but keep
+            # legacy X-API-Key header for backward compatibility.
+            headers["Authorization"] = f"Token {self.token}"
             headers["X-API-Key"] = self.token
         
         return headers

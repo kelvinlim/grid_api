@@ -13,7 +13,7 @@ from .exceptions import (
     ServerError,
 )
 
-__version__ = "1.0.0"
+__version__ = "1.0.8"
 __author__ = "Grid API Team"
 __email__ = "team@gridapi.com"
 

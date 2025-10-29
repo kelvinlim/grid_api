@@ -69,13 +69,20 @@ python examples/advanced_usage.py
 
 ### 4. Use CLI Tool
 
-The CLI automatically reads configuration from a `grid_token` file in the current directory.
+The CLI automatically reads configuration from a `grid_token` file in the current directory. If no local `grid_token` is found, it will fall back to a `~/.grid_token` file in the user's home directory. Passing `--config-file` overrides both behaviors and uses the explicit path provided.
 
 **Create a configuration file:**
 ```bash
 # Create grid_token file
 echo "grid_token=your-api-token-here" > grid_token
 echo "base_url=https://your-api-url.com" >> grid_token
+```
+
+Or create a home config file for a global default:
+
+```bash
+# Create ~/.grid_token for a per-user default
+cp grid_token ~/.grid_token
 ```
 
 **Use the CLI:**

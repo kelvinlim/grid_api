@@ -55,23 +55,34 @@ def load_config_file(config_file: Optional[str] = None) -> Dict[str, str]:
     Returns:
         Dictionary of configuration values
     """
-    if config_file is None:
-        config_file = "grid_token"
-    
-    config_path = Path(config_file)
+    # If user provided an explicit config_file, only try that path.
+    # Otherwise prefer a local `grid_token` file, then fallback to `~/.grid_token`.
     config = {}
-    
-    if config_path.exists():
-        try:
-            with open(config_path, 'r') as f:
-                for line in f:
-                    line = line.strip()
-                    if line and not line.startswith('#') and '=' in line:
-                        key, value = line.split('=', 1)
-                        config[key.strip()] = value.strip()
-        except Exception as e:
-            console.print(f"[yellow]Warning: Could not read config file {config_file}: {e}[/yellow]")
-    
+
+    if config_file:
+        paths_to_try = [Path(config_file)]
+    else:
+        paths_to_try = [Path('grid_token'), Path.home() / '.grid_token']
+
+    found_path = None
+    for p in paths_to_try:
+        if p.exists():
+            found_path = p
+            break
+
+    if not found_path:
+        return config
+
+    try:
+        with open(found_path, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#') and '=' in line:
+                    key, value = line.split('=', 1)
+                    config[key.strip()] = value.strip()
+    except Exception as e:
+        console.print(f"[yellow]Warning: Could not read config file {found_path}: {e}[/yellow]")
+
     return config
 
 
@@ -116,15 +127,16 @@ def get_client_from_context(ctx) -> GridAPIClient:
 @click.option('--base-url', help='Base URL for Grid API (overrides config file)')
 @click.option('--token', help='API token for authentication (overrides config file)')
 @click.option('--session-id', help='Session ID for cookie authentication (overrides config file)')
-@click.option('--config-file', help='Path to configuration file (default: grid_token)')
+@click.option('--config-file', help="Path to configuration file (default: grid_token; if not provided, falls back to ~/.grid_token)")
 @click.option('--verbose', '-v', is_flag=True, help='Enable verbose output')
 @click.pass_context
 def cli(ctx, base_url: Optional[str], token: Optional[str], session_id: Optional[str], 
         config_file: Optional[str], verbose: bool):
     """GridAPI command-line interface (version {}).
 
-    Configuration is loaded from a 'grid_token' file by default.
-    Command line options override config file values.
+    Configuration is loaded from a local `grid_token` file by default. If no local
+    `grid_token` is found the CLI will fall back to `~/.grid_token` in the user's
+    home directory. Command line options override config file values.
 
     Example grid_token file:
         grid_token=your-api-token-here

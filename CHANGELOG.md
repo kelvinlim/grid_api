@@ -1,9 +1,23 @@
+```markdown
 # Changelog
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0/).
+
+## [1.0.8] - 2025-10-29
+
+### Changed
+- Bumped package version to 1.0.8.
+- CLI configuration lookup now prefers a local `grid_token` file and falls back to `~/.grid_token` in the user's home directory when no explicit `--config-file` is provided. Command-line options still override config files.
+
+### Fixed
+- Ensure token authentication exposes a standard `Authorization: Token <token>` header while preserving legacy `X-API-Key` header for backward compatibility.
+- Fixed test expectations for token auth; updated tests now pass.
+
+### Docs
+- Updated `README.md` and `INSTALLATION.md` to document the new config-file fallback behavior.
 
 ## [1.0.0] - 2024-01-XX
 
@@ -38,3 +52,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive test suite with pytest
 - Type checking with mypy
 - Code formatting with black and isort
+
+```
